@@ -1,0 +1,22 @@
+{
+	"name": "jay SSDP",
+	"version": "0.0.1",
+	"description": "A small library implementing Simple Service Discovery Protocol",
+	"main": "index.js",
+	"scripts": {
+		"test": ""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/netdur/jay-ssdp.git"
+	},
+	"keywords": [
+		"ssdp",
+		"upnp"
+	],
+	"author": "Adel Boussaken <netdur@gmail.com>",
+	"license": "The MIT License (MIT)",
+	"bugs": {
+		"url": "https://github.com/netdur/jay-ssdp/issues"
+	}
+}
