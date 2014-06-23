@@ -64,11 +64,11 @@ ssdp.getNetworkServices("upnp:urn:schemas-upnp-org:service:ContentDirectory:1", 
 		console.log(services[i]);
 	}
 	networkServices.on("servicefound", function(service) {
-    console.log("found", service);
-  });
-  networkServices.on("servicelost", function(service) {
-    console.log("lost", service);
-  });
+		console.log("found", service);
+	});
+	networkServices.on("servicelost", function(service) {
+		console.log("lost", service);
+	});
 });
 ```
 
