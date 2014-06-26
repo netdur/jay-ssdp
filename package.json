@@ -1,5 +1,6 @@
 {
-	"name": "Jay SSDP",
+	"private": true,
+	"name": "Jay-SSDP",
 	"version": "0.0.1",
 	"description": "A small library implementing Simple Service Discovery Protocol",
 	"scripts": {
@@ -11,7 +12,7 @@
 	},
 	"bugs": {
 		"url": "https://github.com/netdur/jay-ssdp/issues"
-	}
+	},
 	"keywords": [
 		"ssdp",
 		"upnp"

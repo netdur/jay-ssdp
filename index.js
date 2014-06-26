@@ -6,13 +6,14 @@ var util = require("util");
 var os = require("os");
 var events = require("events");
 
-function NetworkService(networkService) {
+function NetworkService(networkServices) {
 	events.EventEmitter.call(this);
-	var networkService = networkService;
 
+	var self = this;
 	this.id = null;
 	this.type = null;
 	this.online = false;
+	this.timeout = null;
 
 	this.set = function(data) {
 		var type = data["usn"].split("::");
@@ -24,7 +25,35 @@ function NetworkService(networkService) {
 		for (var i in data) {
 			this[i] = data[i];
 		}
+		this.emit("available");
+		networkServices.emit("servicefound", self);
+		this.setTimeout(data);
 	}
+
+	this.setTimeout = function(data) {
+		var expire = data["cache-control"].split("=")[1];
+		clearTimeout(this.timeout);
+		this.timeout = setTimeout(function() {
+			self.leave();
+		}, expire * 1000); // seconds to ms
+	}
+
+	this.leave = function() {
+		this.online = false;
+		this.emit("unavailable");
+		networkServices.emit("servicelost", self);
+	}
+
+	this.on("notify", function(data) {
+		if (data["nts"] === "ssdp:byebye") {
+			self.leave();
+		}
+		if (data["nts"] === "ssdp:alive") {
+			self.online = true;
+			self.emit("available");
+			self.setTimeout(data);
+		}
+	});
 }
 util.inherits(NetworkService, events.EventEmitter);
 
@@ -52,10 +81,17 @@ function NetworkServices() {
 		}
 	}
 	this.getServicesByType = function(type) {
+		var types = [];
+		if (type instanceof Array) {
+			types = type;
+		} else {
+			types = [type];
+		}
+
 		var list = [];
 		for (var i in services) {
 			var service = services[i];
-			if (service.type === type) {
+			if (types.indexOf(service.type) !== -1) {
 				list.push(service);
 			}
 		}
@@ -109,22 +145,16 @@ function SSDP() {
 			if (!service) {
 				// sometime advertise byebye before going alive !!!
 				service = networkServices.add(data);
-				networkServices.emit("servicefound", service);
 				return;
 			}
 			service.emit("notify", data);
-			if (data["nts"] === "ssdp:byebye") {
-				service.online = false;
-				service.emit("unavailable");
-				networkServices.emit("servicelost", service);
-			}
-			if (data["nts"] === "ssdp:alive") {
-				service.online = true;
-				service.emit("available");
-			}
 		});
 		this.listener.bind(1900, function() {
-			self.listener.addMembership(self.host);
+			try {
+				self.listener.addMembership(self.host);
+			} catch(e) {
+				console.log("Error: addMembership EBADF", e);
+			}
 		});
 	}
 	this.stop = function() {
