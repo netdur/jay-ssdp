@@ -31,6 +31,11 @@ function NetworkService(networkServices) {
 	}
 
 	this.setTimeout = function(data) {
+		if (data["nts"] === "ssdp:byebye") {
+			// byebye
+			clearTimeout(this.timeout);
+			return;
+		}
 		var expire = data["cache-control"].split("=")[1];
 		clearTimeout(this.timeout);
 		this.timeout = setTimeout(function() {
@@ -130,6 +135,7 @@ function SSDP() {
 		return data;
 	}
 	this.listen = function() {
+		var self = this;
 		this.listener = dgram.createSocket("udp4");
 		this.listener.on("message", function(message, info) {
 			var data = self.parseMessage(message.toString(), info);
@@ -162,10 +168,15 @@ function SSDP() {
 	}
 	this.getNetworkServices = function(ST, callback) {
 		this.ST = ST || "ssdp:all";
+		this.listen();
 
 		var udp4Discover = dgram.createSocket("udp4");
 		udp4Discover.on("message", function(message, info) {
-			networkServices.add(self.parseMessage(message, info));
+			var data = self.parseMessage(message, info);
+			var service = networkServices.getServiceById(data["usn"]);
+			if (!service) {
+				networkServices.add(data);
+			}
 		});
 		var message = new Buffer(
 			"M-SEARCH * HTTP/1.1\r\n"
@@ -182,7 +193,7 @@ function SSDP() {
 		var udp4DiscoverTimeout = setTimeout(function() {
 			udp4Discover.close();
 			callback.call(self, networkServices);
-			self.listen();
+			// self.listen();
 		}, this.MX * 1100);
 	};
 }

@@ -1,10 +1,10 @@
 {
-	"private": true,
-	"name": "Jay-SSDP",
+	"name": "jay-ssdp",
 	"version": "0.0.1",
-	"description": "A small library implementing Simple Service Discovery Protocol",
+	"description": "Simple Service Discovery Protocol library for Node.js",
+	"main": ".index.js",
 	"scripts": {
-		"test": ""
+		"test": "echo 'how do you test network lib?'"
 	},
 	"repository": {
 		"type": "git",
@@ -14,12 +14,12 @@
 		"url": "https://github.com/netdur/jay-ssdp/issues"
 	},
 	"keywords": [
-		"ssdp",
-		"upnp"
+		"ssdp"
 	],
 	"author": {
 		"name": "Adel Boussaken",
 		"email": "netdur@gmail.com"
 	},
-	"license": "MIT"
+	"license": "MIT",
+	"homepage": "https://github.com/netdur/jay-ssdp"
 }
