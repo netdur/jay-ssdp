@@ -1,10 +1,14 @@
 {
 	"name": "jay-ssdp",
-	"version": "0.0.2",
+	"version": "0.0.4",
 	"description": "Simple Service Discovery Protocol library for Node.js",
 	"main": ".index.js",
 	"scripts": {
 		"test": "echo 'how do you test network lib?'"
+	},
+	"dependencies": {
+		"libxmljs": "*",
+		"httpsync": "*"
 	},
 	"repository": {
 		"type": "git",

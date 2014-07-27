@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+	<specVersion>
+		<major>1</major>
+		<minor>0</minor>
+	</specVersion>
+	<URLBase>http://192.168.1.2:8042</URLBase>
+	<device>
+		<deviceType>urn:schemas-upnp-org:device:HomeAutomation:1</deviceType>
+		<friendlyName>Jeenee Hub</friendlyName>
+
+		<manufacturer>Injeen</manufacturer>
+		<manufacturerURL>http://www.injeen.com/</manufacturerURL>
+
+		<modelDescription>Home Automation Hub</modelDescription>
+		<modelName>Jeenee Hub</modelName>
+		<modelNumber>A0101-0514</modelNumber>
+		<modelURL>http://www.injeen.com/jeenee/hub</modelURL>
+
+		<serialNumber>manufacturer's serial number</serialNumber>
+		<UDN>uuid:UUID1234</UDN>
+		<UPC>Universal Product Code</UPC>
+	</device>
+</root>
